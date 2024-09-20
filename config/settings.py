@@ -118,12 +118,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_PATH = os.path.join(
-    BASE_DIR, "static"
-)  # concatena a pasta static a variavel instanciada base_dir que aponta para a raiz do projeto
+# concatena a pasta static a variavel instanciada base_dir que aponta para a raiz do projeto
 
-STATICFILES_DIRS = (STATIC_PATH,)
+STATIC_URL = '/assets/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

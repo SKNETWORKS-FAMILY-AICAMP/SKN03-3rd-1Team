@@ -1,5 +1,4 @@
 from django.shortcuts import render
 
-def user(request):
-    
-    return render(request, "user/user.html")
+def Profile(request):
+    return render(request, 'user/Profile.html')

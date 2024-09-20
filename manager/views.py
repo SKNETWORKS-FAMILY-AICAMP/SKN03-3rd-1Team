@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
-def manager(request):
-    
-    return render(request, "manager/manager.html")
+def CustomerTable(request):
+    return render(request,'manager/CustomerTable.html')
+
+def Charts(request):
+    return render(request, 'manager/Charts.html')
