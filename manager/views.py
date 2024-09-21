@@ -20,3 +20,8 @@ def csv_to_table(request):
     
     return render(request, 'manager/manager.html', {'table_html': table_html})
 
+def CustomerTable(request):
+    return render(request,'manager/CustomerTable.html')
+
+def Charts(request):
+    return render(request, 'manager/Charts.html')
