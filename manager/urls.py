@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import manager
+from .views import csv_to_table
 
 # app.url.py -> request & view를 연결해줌
 urlpatterns = [
     # localhost
-    path('',manager,name="manager-connect")
+    path('',csv_to_table,name="manager-connect")
 ]

@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>manager</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Table</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/manager.css' %}" />
-  </head>
-  <body>
-    <h1>manager</h1>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+</head>
+<body>
+    <h1>CSV Data Table</h1>
+    <div id="manage">
+        {{ table_html|safe }}
+    </div>
 
-    <script type="text/javascript" src="{% static 'js/manager.js' %}"></script>
-  </body>
+    <script src="{% static 'js/manager.js' %}"></script>
+</body>
 </html>
