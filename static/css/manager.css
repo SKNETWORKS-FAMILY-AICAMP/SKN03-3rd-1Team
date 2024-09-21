@@ -22,3 +22,26 @@ input[type="text"] {
     padding: 5px;
     width: 300px;
 }
+
+/* 버튼 스타일 추가 */
+.button {
+    display: block; /* 버튼을 세로로 나열 */
+    margin: 5px 0; /* 버튼 간격 조정 */
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-tenure {
+    background-color: #4CAF50; 
+}
+
+.button-totalcharges {
+    background-color: #FF9800;
+}
+
+.button-multiplelines {
+    background-color: #2196F3; 
+}
