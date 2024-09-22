@@ -31,12 +31,23 @@ def Message(request, customer_id):
 
 
 def read_msg(request, customer_id, email_id):
+    customer = Customer.objects.get(customerID=customer_id)
     email = get_object_or_404(Email, id=email_id, customer__customerID=customer_id)
+    print("="*20)
+    print(email)
+    print("="*20)
     #email = get_object_or_404(Email, id=email_id)
     if not email.is_read: 
         email.is_read = True
         email.save()
-    return render(request, 'user/read_msg.html', {'email': email})
+    """원래 코드"""
+    # return render(request, 'user/read_msg.html', {'email': email})
+    
+    """이걸로 하면, 나와야하는 내용을 간단하게 html로 만들어봄"""
+    # return render(request, 'user/test_read_msg.html', {'email': email})
+    
+    """원래 하려고 했던 코드가 돌아가게 만듦 (단, 내용은 넣지 않음 - test_read_msg.html 을 보면서 넣어야할 듯)"""
+    return render(request, 'user/read_msg.html', {'customer': customer, 'email': email})
 
 
 
