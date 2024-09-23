@@ -53,11 +53,12 @@ class Email(models.Model):
     
 
 
-
 class Coupon(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    code = models.CharField(max_length=50)
-    #is_downloaded = models.BooleanField(default=False)  # 다운로드 여부
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE) # 쿠폰 소유한 사용자(외래키)
+    description = models.TextField(max_length=255, default="") 
+    email = models.ForeignKey(Email, on_delete=models.CASCADE, unique=True, default="")
+    discount_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True) # 할인 비율
+    is_downloaded = models.BooleanField(default=False)  # 다운로드 여부
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

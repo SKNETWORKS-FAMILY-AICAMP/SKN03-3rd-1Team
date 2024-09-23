@@ -4,7 +4,8 @@ import os
 #from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Customer, Email
+from .models import Customer, Email, Coupon
+
 
 
 # def Message(request):
@@ -73,17 +74,33 @@ def read_msg(request, customer_id, email_id):
 
 
 
-def Coupon(request, customer_id):
+# def Coupon(request, customer_id, code):
+#     customer = get_object_or_404(Customer, customerID=customer_id)
+#     # if email_id.is_downloaded == False:
+#     #     email_id.save()
+#     # else:
+#     #     print("이미 발급된 쿠폰입니다.")
+#     return render(request, 'user/Coupon.html',  {'customer': customer})
+
+def Coupon(request, customer_id, code):
     customer = get_object_or_404(Customer, customerID=customer_id)
-    # if email_id.is_downloaded == False:
-    #     email_id.save()
-    # else:
-    #     print("이미 발급된 쿠폰입니다.")
-    return render(request, 'user/Coupon.html',  {'customer': customer})
+    email = get_object_or_404(Email, id=email_id, customer=customer)
+
+    coupon, created = Coupon.objects.get_or_create(customer=customer, email=email)
+    
+    if created:
+        # 새로운 쿠폰 생성
+        coupon.description = f'{email.subject}에 대한 특별 쿠폰'
+        coupon.discount_amount = 10.00  # 예시로 10% 할인
+        coupon.save()
+    
+    return redirect('Coupon_wallet', customer_id=customer_id)
 
 
-
-
+def Coupon_wallet(request, customer_id):
+    customer = get_object_or_404(Customer, customerID=customer_id)
+    coupons = Coupon.objects.filter(customer=customer, is_downloaded=False)
+    return render(request, 'user/Coupon.html', {'coupons': coupons, 'customer': customer})
 
 def Profile(request, customer_id):
     customer = get_object_or_404(Customer, customerID=customer_id)

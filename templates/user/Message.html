@@ -81,7 +81,7 @@
             </a>
           </li>
           <li>
-            <a href="{% url 'Coupon' customer_id=customer.customerID %}">
+            <a href="{% url 'Coupon' customer.customerID coupon.code %}">
               <i class="bi bi-circle"></i><span>Coupon</span>
             </a>
           </li>
