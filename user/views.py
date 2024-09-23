@@ -10,12 +10,28 @@ from .models import Customer, Email
 # def Message(request):
 #     return render(request, 'user/Message.html')
 
+# def Message(request, customer_id):
+#     customer = get_object_or_404(Customer, customerID=customer_id)
+
+#     eligible_customers = Customer.objects.filter(gender='Female', email__isnull=True)
+
+#     for customer in eligible_customers:
+#         Email.objects.create(
+#             sender_name='Admin',
+#             subject='특별한 혜택 안내',
+#             received_date=timezone.now(),
+#             is_read=False,
+#             customer=customer
+#         )
+
+#     emails = Email.objects.filter(customer=customer).order_by('-received_date')
+#     return render(request, 'user/Message.html', {'emails': emails, 'customer': customer})
+
 def Message(request, customer_id):
     customer = get_object_or_404(Customer, customerID=customer_id)
 
-    eligible_customers = Customer.objects.filter(gender='Female', email__isnull=True)
-
-    for customer in eligible_customers:
+    # 조건에 맞는 고객에게만 이메일 생성
+    if customer.gender == 'Female' and customer_id == customer.customerID:
         Email.objects.create(
             sender_name='Admin',
             subject='특별한 혜택 안내',
@@ -24,9 +40,9 @@ def Message(request, customer_id):
             customer=customer
         )
 
+    # 해당 고객의 이메일 목록을 필터링
     emails = Email.objects.filter(customer=customer).order_by('-received_date')
     return render(request, 'user/Message.html', {'emails': emails, 'customer': customer})
-
 
 
 
@@ -50,6 +66,9 @@ def read_msg(request, customer_id, email_id):
     return render(request, 'user/read_msg.html', {'customer': customer, 'email': email})
 
 
+def Coupon(request, customer_id):
+    customer = get_object_or_404(Customer, customerID=customer_id)
+    return render(request, 'user/Coupon.html',  {'customer': customer})
 
 
 
