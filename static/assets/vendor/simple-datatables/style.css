@@ -79,6 +79,12 @@
 	cursor: default;
 }
 
+.datatable-pagination-list-item .current {
+	font-weight: bold; /* 강조 스타일 */
+	color: #007bff;    /* 강조 색상 */
+}
+
+
 .datatable-pagination .datatable-ellipsis a,
 .datatable-pagination .datatable-disabled a,
 .datatable-pagination .datatable-disabled a:focus,

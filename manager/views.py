@@ -1,110 +1,109 @@
+from django.shortcuts import render
 import pandas as pd
 import os
+from django.conf import settings
+from django.core.paginator import Paginator
+
+import os
+import pandas as pd
 from django.conf import settings
 from django.shortcuts import render
 import matplotlib.pyplot as plt
 import seaborn as sns
+from django.core.paginator import Paginator
 
-def generate_graph(tenure, churn_status):
-    # Seaborn 스타일 설정
-    sns.set(style="whitegrid")
+def CustomerTable(request):
+    try:
+        # CSV 파일 경로
+        csv_file_path = os.path.join(settings.BASE_DIR, 'static', 'assets', 'data', 'WA_Fn-UseC_-Telco-Customer-Churn.csv')
+        df = pd.read_csv(csv_file_path)
 
-    # Churn 데이터 계산
-    tenure_counts_churn_yes = df[df['Churn'] == 'Yes']['tenure'].value_counts().sort_index()
-    tenure_counts_churn_no = df[df['Churn'] == 'No']['tenure'].value_counts().sort_index()
+        # Continuous Data와 Discrete Data 설정
+        continuous_columns = ['MonthlyCharges', 'TotalCharges']
+        discrete_columns = ['tenure']
 
-    # 그래프 설정
-    plt.figure(figsize=(10, 6))
+        # Binary Data와 Non-Binary Data 설정
+        binary_columns = ['PhoneService', 'Dependents', 'gender', 'SeniorCitizen', 'Partner', 'PaperlessBilling']
+        non_binary_columns = ['DeviceProtection', 'OnlineBackup', 'StreamingMovies', 'OnlineSecurity', 'TechSupport', 'StreamingTV', 'Contract', 'InternetService', 'MultipleLines', 'PaymentMethod']
 
-    # Churn이 Yes일 때 tenure의 빈도수 시각화
-    sns.lineplot(x=tenure_counts_churn_yes.index, y=tenure_counts_churn_yes.values, color='red', label='Churn = Yes')
+        # 원핫 인코딩 적용
+        df = pd.get_dummies(df, columns=binary_columns + non_binary_columns)
 
-    # Churn이 No일 때 tenure의 빈도수 시각화
-    sns.lineplot(x=tenure_counts_churn_no.index, y=tenure_counts_churn_no.values, color='blue', label='Churn = No')
+        # 불필요한 컬럼 제거
+        drop_columns = ['No internet service', 'No phone service', 'Month-to-month', '_No', 'Credit card (automatic)']
+        for drop_col in drop_columns:
+            df = df.drop(df.filter(regex=drop_col), axis=1)
 
-    # 고객의 위치 표시
-    if churn_status == 'Yes':
-        plt.scatter(tenure, 0, color='red', s=100, label='Your Tenure')  # y축 값은 필요에 따라 조정
-    else:
-        plt.scatter(tenure, 0, color='blue', s=100, label='Your Tenure')  # y축 값은 필요에 따라 조정
+        # TotalCharges 결측값을 0으로 처리하고, 숫자로 변환
+        df['TotalCharges'] = pd.to_numeric(df['TotalCharges'], errors='coerce')
+        df['TotalCharges'].fillna(0, inplace=True)
 
-    # 제목과 축 레이블 설정
-    plt.title('Frequency of Tenure by Churn Status', fontsize=16)
-    plt.xlabel('Tenure', fontsize=14)
-    plt.ylabel('Frequency', fontsize=14)
+        # tenure도 숫자로 변환
+        df['tenure'] = pd.to_numeric(df['tenure'], errors='coerce')
+        df['tenure'].fillna(0, inplace=True)
 
-    # 그래프 꾸미기
-    plt.xticks(fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.grid(True, linestyle='--', alpha=0.7)
-    plt.legend(title='Churn Status', fontsize=12, title_fontsize=14)
+        # 컬럼 이름에서 공백을 밑줄로 대체
+        df.columns = df.columns.str.replace(' ', '_')
 
-    # 그래프 저장
-    image_path = os.path.join(settings.MEDIA_ROOT, 'graphs', f'graph_{tenure}.png')
-    plt.savefig(image_path)
-    plt.close()
+        # 새로운 컬럼 state 생성 및 조건별 버튼 설정
+        df['State'] = ''  # state 컬럼에 버튼을 추가할 빈 문자열로 초기화
+        df['Service'] = ''
+
+        # 버튼 추가 조건
+        df.loc[df['tenure'] >= 6, 'State'] += '<button class="btn btn-sm btn-tenure" style="background-color: #012970; color: white;">Tenure</button> '
+        df.loc[df['TotalCharges'] >= 1000, 'State'] += '<button class="btn btn-sm btn-totalcharges" style="background-color: #012970; color: white;">TotalCharges</button> '
+        if 'MultipleLines_Yes' in df.columns:
+            df.loc[df['MultipleLines_Yes'] == 1, 'State'] += '<button class="btn btn-sm btn-multiplelines" style="background-color: #012970; color: white;">MultipleLines</button> '
+
+
+
+        for index, row in df.iterrows():
+            button_html = '<div style="display: flex; gap: 10px;">'
+            if row['tenure'] >= 6:  # tenure가 6 이상일 때
+                df.at[index, 'Service'] += '<a href="/Message/{0}&tenure" class="btn btn-sm btn-tenure-2" style="background-color: #012970; color: white;">Tenure</a> '.format(row['customerID'], row['tenure'])
+            
+            if row['TotalCharges'] >= 1000:  # TotalCharges가 1000 이상일 때
+                df.at[index, 'Service'] += '<a href="/Message/{0}&TotalCharges" class="btn btn-sm btn-totalcharges-2" style="background-color: #012970; color: white;">TotalCharges</a> '.format(row['customerID'], row['TotalCharges'])
+            
+            if 'MultipleLines_Yes' in df.columns and row['MultipleLines_Yes'] == 1:  # MultipleLines_Yes가 1일 때
+                df.at[index, 'Service'] += '<a href="/Message/{0}&MultipleLines_Yes" class="btn btn-sm btn-multiplelines-2" style="background-color: #012970; color: white;">MultipleLines</a> '.format(row['customerID'], row['MultipleLines_Yes'])
+
+        # 필요한 컬럼만 선택
+        selected_columns = df[['customerID', 'MonthlyCharges', 'TotalCharges', 'Contract_One_year', 'MultipleLines_Yes', 'tenure', 'State', 'Service']]
     
-    return image_path
+
+        search_query = request.GET.get('search', '')
+        if search_query:
+            mask = selected_columns.apply(lambda row: row.astype(str).str.contains(search_query, case=False).any(), axis=1)
+            selected_columns = selected_columns[mask]
+
+        rows = selected_columns.values.tolist()
+
+        per_page = request.GET.get('per-page', 10)
+        paginator = Paginator(rows, per_page)
+        page_number = request.GET.get('page', 1)
+        page_obj = paginator.get_page(page_number)
+
+        columns = selected_columns.columns.tolist()
+
+        current_group = (page_obj.number - 1) // 10
+        start_page = current_group * 10 + 1
+        end_page = min(start_page + 9, paginator.num_pages)
+
+        return render(request, 'manager/CustomerTable.html', {
+            'columns': columns,
+            'page_obj': page_obj,
+            'page_range': range(start_page, end_page + 1),
+            'has_previous': page_obj.has_previous(),
+            'has_next': page_obj.has_next(),
+            'per_page': per_page,
+            'search_query': search_query,
+        })
+
+    except FileNotFoundError:
+        return render(request, 'manager/CustomerTable.html', {'error': '파일을 찾을 수 없습니다.'})
 
 
-def csv_to_table(request):
-    # CSV 파일 경로
-    csv_file_path = os.path.join(settings.STATICFILES_DIRS[0], 'data', 'Telco-customer-churn.csv')
-    
-    # pandas로 CSV 파일 읽기
-    df = pd.read_csv(csv_file_path)
+def Charts(request):
+    return render(request, 'manager/Charts.html')
 
-    # Continuous Data와 Discrete Data 설정
-    continuous_columns = ['MonthlyCharges', 'TotalCharges']
-    discrete_columns = ['tenure']
-    
-    # Binary Data와 Non-Binary Data 설정
-    binary_columns = ['PhoneService', 'Dependents', 'gender', 'SeniorCitizen', 'Partner', 'PaperlessBilling']
-    non_binary_columns = ['DeviceProtection', 'OnlineBackup', 'StreamingMovies', 'OnlineSecurity', 'TechSupport', 'StreamingTV', 'Contract', 'InternetService', 'MultipleLines', 'PaymentMethod']
-
-    # 원핫 인코딩 적용
-    df = pd.get_dummies(df, columns=binary_columns + non_binary_columns)
-    
-    # 불필요한 컬럼 제거
-    drop_columns = ['No internet service', 'No phone service', 'Month-to-month', '_No', 'Credit card (automatic)']
-    for drop_col in drop_columns:
-        df = df.drop(df.filter(regex=drop_col), axis=1)
-
-    # TotalCharges 결측값을 0으로 처리하고, 숫자로 변환
-    df['TotalCharges'] = pd.to_numeric(df['TotalCharges'], errors='coerce')
-    df['TotalCharges'].fillna(0, inplace=True)
-    
-    # tenure도 숫자로 변환
-    df['tenure'] = pd.to_numeric(df['tenure'], errors='coerce')
-    df['tenure'].fillna(0, inplace=True)
-    
-    # 컬럼 이름에서 공백을 밑줄로 대체
-    df.columns = df.columns.str.replace(' ', '_')
-
-    # 새로운 컬럼 state 생성 및 조건별 버튼 설정
-    df['state'] = ''  # state 컬럼에 버튼을 추가할 빈 문자열로 초기화
-
-    # 1. tenure가 6 이상이면 'tenure' 버튼 추가
-    df.loc[df['tenure'] >= 6, 'state'] += '<button class="button button-tenure">Tenure</button> '
-
-    # 2. TotalCharges가 특정 기준 이상이면 'VIP 고객'으로 간주하고 'TotalCharges' 버튼 추가
-    df.loc[df['TotalCharges'] >= 1000, 'state'] += '<button class="button button-totalcharges">TotalCharges</button> '
-
-    # 3. MultipleLines_Yes가 True인 경우 'MultipleLines_Yes' 버튼 추가
-    if 'MultipleLines_Yes' in df.columns:
-        df.loc[df['MultipleLines_Yes'] == 1, 'state'] += '<button class="button button-multiplelines">MultipleLines</button> '
-
-    # 필요한 컬럼만 선택 (Churn은 제외)
-    columns_to_display = ['customerID', 'MonthlyCharges', 'TotalCharges', 'Contract_One_year', 'MultipleLines_Yes', 'DeviceProtection_Yes', 'tenure', 'state']
-    df = df[columns_to_display]
-
-    # 데이터프레임을 HTML로 변환 (템플릿으로 전달하기 위해)
-    table_html = df.to_html(index=False, escape=False)  # escape=False는 HTML 태그를 처리하기 위해 사용
-    
-    if request.method == 'POST':
-        tenure = int(request.POST.get('tenure'))
-        churn_status = request.POST.get('churn_status')
-        image_path = generate_graph(tenure, churn_status)
-        return render(request, 'manager/graph_popup.html', {'image_path': image_path})
-
-    return render(request, 'manager/manager.html', {'table_html': table_html})
