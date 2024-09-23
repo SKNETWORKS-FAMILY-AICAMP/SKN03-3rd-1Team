@@ -141,9 +141,7 @@
                             <td>{{ email.sender_name }}</td>
                             <td>
                                 <a href="{% url 'read_msg' customer_id=customer.customerID email_id=email.id %}" style="{% if not email.is_read %}font-weight: bold;{% endif %}">
-                                    {{ email.subject }}
-                                    <p>{{ customer.customerID }}</p>
-                                    <p>{{ email.id }}</p>
+                                    {{ email.subject }}                                    
                                 </a>                                
                             </td>
                             <td>{{ email.received_date|date:"Y-m-d H:i"  }}</td>

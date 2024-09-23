@@ -44,8 +44,22 @@ class Email(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True) # ForeingKey 추가
     sender_name = models.CharField(max_length=100)
     subject = models.CharField(max_length=255)
+    content = models.TextField(default="축하합니다 ! 쿠폰이 발급되었습니다, ")
     received_date = models.DateTimeField(default=timezone.now)
     is_read = models.BooleanField(default=False)
-    
+
     def __str__(self):
         return f'{self.sender_name} - {self.subject}'
+    
+
+
+
+class Coupon(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    code = models.CharField(max_length=50)
+    #is_downloaded = models.BooleanField(default=False)  # 다운로드 여부
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.code
+
