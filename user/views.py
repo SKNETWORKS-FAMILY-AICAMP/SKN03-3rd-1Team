@@ -4,7 +4,7 @@ import os
 #from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Customer, Email, Coupon
+from .models import Customer, Email#, Coupon
 
 
 # def Message(request):
@@ -73,12 +73,12 @@ def read_msg(request, customer_id, email_id):
 
 
 
-def Coupon(request, customer_id, email_id):
+def Coupon(request, customer_id):
     customer = get_object_or_404(Customer, customerID=customer_id)
-    if email_id.is_downloaded == False:
-        email_id.save()
-    else:
-        print("이미 발급된 쿠폰입니다.")
+    # if email_id.is_downloaded == False:
+    #     email_id.save()
+    # else:
+    #     print("이미 발급된 쿠폰입니다.")
     return render(request, 'user/Coupon.html',  {'customer': customer})
 
 

@@ -10,6 +10,6 @@ urlpatterns = [
 
     path('Message/<str:customer_id>/<int:email_id>/', views.read_msg, name='read_msg'),
 
-    path('Coupon/<str:customer_id>/<int:email_id>/', views.Coupon, name='Coupon'), # 쿠폰함
+    path('Coupon/<str:customer_id>/', views.Coupon, name='Coupon'), # 쿠폰함
     path('Profile/<str:customer_id>/', views.Profile, name='Profile') # 개인 프로필
 ]
