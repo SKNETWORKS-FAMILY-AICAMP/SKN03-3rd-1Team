@@ -116,17 +116,61 @@
     <section class="section profile">
       <div class="row">
         <div class="col-lg-12">
-          <div class="card">
-            <div class="card-body pt-3">
+
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body pt-3">
+                  <!-- 메일 폼 -->              
+                    <div class="tab-content pt-2">
+                      <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+                        <h4 class="card-title" style="font-weight: bold;">{{ email.subject }}</h4>
+
+                        <div class="row">
+                          <div class="col-lg-3 col-md-4 label ">From</div>
+                          <div class="col-lg-9 col-md-8">{{ email.sender_name }}</div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-lg-3 col-md-4 label">Received on</div>
+                          <div class="col-lg-9 col-md-8">{{ email.received_date }}</div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-lg-3 col-md-4 label">Content</div>
+                          <div class="col-lg-9 col-md-8">{{ email.content }}쿠폰에 대한 내용이 나올 부분입니다. 쿠폰에 대한 내용이 나올 부분입니다.</div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-lg-3 col-md-4 label">Download</div>
+                          <div class="col-lg-9 col-md-8">
+                            <a href="{% url 'Coupon' customer_id=customer.customerID %}">
+                              <button type="button" class="btn btn-primary">쿠폰 다운로드</button>
+                            </a>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
 
 
+                  <!-- 홈 화면으로 돌아가기 -->
+                  <!-- <div class="row mb-3">
+                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Coupon</label>
+                    <div class="col-md-8 col-lg-9">
+                      <div class="pt-2">
+                        <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                        <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                      </div>
+                    </div>
+                  </div> -->
+
+                </form><!-- End Profile Edit Form -->
+                </div>
+              </div>
             </div>
-          </div>
-
         </div>
       </div>
     </section>
-
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->

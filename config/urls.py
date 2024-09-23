@@ -21,7 +21,7 @@ from django.urls import path, include
 urlpatterns = [
     path('Message/',include("user.urls")),
 
-    path('',include("manager.urls")),
+    #path('',include("manager.urls")),
     # path('admin/', admin.site.urls),
 ]
 
