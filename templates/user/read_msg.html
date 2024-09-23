@@ -118,10 +118,21 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-body pt-3">
-
-
+              <h3>제목이 될 부분</h3>
             </div>
           </div>
+
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body pt-3">
+                <a>내용이 될 부분(쿠폰)</a>
+                <br>
+                <a href="{% url 'Coupon' customer_id=customer.customerID %}">
+                  <button type="button" class="btn btn-primary">쿠폰 다운로드</button>
+                </a>
+              
+              </div>
+            </div>
 
         </div>
       </div>
