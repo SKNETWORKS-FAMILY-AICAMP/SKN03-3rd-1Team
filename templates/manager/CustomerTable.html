@@ -71,35 +71,21 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>DashBoard</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link" href="{% url 'CustomerTable' %}">
+            <i class="bi bi-menu-button-wide"></i><span>CustomerTable</span>
         </a>
-        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{% url 'CustomerTable' %}">
-              <i class="bi bi-circle"></i><span>CutomerTable</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'Charts' %}">
-              <i class="bi bi-circle"></i><span>Charts</span>
-            </a>
-          </li>
-        </ul>
       </li><!-- End Charts Nav -->
     </ul>
 
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
-
     <div class="pagetitle">
       <h1>CustomerTable</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">DashBoard</li>
-          <li class="breadcrumb-item active">CustomerTable</li>
+          <li class="breadcrumb-item">CustomerTable</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -107,11 +93,11 @@
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
+
           <div class ="card">
             <div class="card-body">
               <h5 class="card-title">Datatables</h5>
               <!-- Table with stripped rows -->
-              
               <div style="overflow-x: auto; white-space: nowrap;">
               <table class="table datatable">
                 <thead>
@@ -127,11 +113,6 @@
                           {% for item in row %}
                               <td>{{ item|safe }}</td>
                           {% endfor %}
-                          <td>
-                              <div style="display: flex; gap: 10px;">
-                                  {{ row.Service|safe }}  
-                              </div>
-                          </td>
                       </tr>
                   {% endfor %}
                 </tbody>
@@ -139,43 +120,44 @@
             </div>
             <!-- End Table with stripped rows -->
           </div>
+
           
-            <nav class="datatable-pagination" aria-label="Page navigation" style="text-align: right; margin-top: 20px;">
-              <ul class="datatable-pagination-list" style="list-style: none; padding: 0; display: inline-flex; gap: 5px;">
-                {% if page_obj.has_previous %}
-                  <li class="datatable-pagination-list-item">
-                    <a href="?page={{ page_obj.previous_page_number }}&search={{ search_query }}&per-page={{ per_page }}" class="datatable-pagination-list-item-link" aria-label="Previous">‹</a>
-                  </li>
-                {% else %}
-                  <li class="datatable-pagination-list-item datatable-disabled">
-                    <span class="datatable-pagination-list-item-link" aria-label="Previous" disabled>‹</span>
-                  </li>
-                {% endif %}
-            
-                {% for num in page_range %}
-                  <li class="datatable-pagination-list-item {% if num == page_obj.number %}current{% endif %}">
-                    {% if num == page_obj.number %}
-                      <strong>{{ num }}</strong>
-                    {% else %}
-                      <a href="?page={{ num }}&search={{ search_query }}&per-page={{ per_page }}" class="datatable-pagination-list-item-link" aria-label="Page {{ num }}">{{ num }}</a>
-                    {% endif %}
-                  </li>
-                {% endfor %}
-            
-                {% if page_obj.has_next %}
-                  <li class="datatable-pagination-list-item">
-                    <a href="?page={{ page_obj.next_page_number }}&search={{ search_query }}&per-page={{ per_page }}" class="datatable-pagination-list-item-link" aria-label="Next">›</a>
-                  </li>
-                {% else %}
-                  <li class="datatable-pagination-list-item datatable-disabled">
-                    <span class="datatable-pagination-list-item-link" aria-label="Next" disabled>›</span>
-                  </li>
-                {% endif %}
-              </ul>
+              <nav class="datatable-pagination" aria-label="Page navigation" style="text-align: right; margin-top: 20px;">
+                <ul class="datatable-pagination-list" style="list-style: none; padding: 0; display: inline-flex; gap: 5px;">
+                  {% if page_obj.has_previous %}
+                    <li class="datatable-pagination-list-item">
+                      <a href="?page={{ page_obj.previous_page_number }}&search={{ search_query }}&per-page={{ per_page }}" class="datatable-pagination-list-item-link" aria-label="Previous">‹</a>
+                    </li>
+                  {% else %}
+                    <li class="datatable-pagination-list-item datatable-disabled">
+                      <span class="datatable-pagination-list-item-link" aria-label="Previous" disabled>‹</span>
+                    </li>
+                  {% endif %}
+              
+                  {% for num in page_range %}
+                    <li class="datatable-pagination-list-item {% if num == page_obj.number %}current{% endif %}">
+                      {% if num == page_obj.number %}
+                        <strong>{{ num }}</strong>
+                      {% else %}
+                        <a href="?page={{ num }}&search={{ search_query }}&per-page={{ per_page }}" class="datatable-pagination-list-item-link" aria-label="Page {{ num }}">{{ num }}</a>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+              
+                  {% if page_obj.has_next %}
+                    <li class="datatable-pagination-list-item">
+                      <a href="?page={{ page_obj.next_page_number }}&search={{ search_query }}&per-page={{ per_page }}" class="datatable-pagination-list-item-link" aria-label="Next">›</a>
+                    </li>
+                  {% else %}
+                    <li class="datatable-pagination-list-item datatable-disabled">
+                      <span class="datatable-pagination-list-item-link" aria-label="Next" disabled>›</span>
+                    </li>
+                  {% endif %}
+                </ul>
 
-            </nav>
+              </nav>
+            </div>
           </div>
-
         </div>
       </div>
     </section>
