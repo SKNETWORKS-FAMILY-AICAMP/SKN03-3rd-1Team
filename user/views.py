@@ -70,9 +70,6 @@ def read_msg(request, customer_id, email_id):
     """원래 하려고 했던 코드가 돌아가게 만듦 (단, 내용은 넣지 않음 - test_read_msg.html 을 보면서 넣어야할 듯)"""
     return render(request, 'user/read_msg.html', {'customer': customer, 'email': email})
 
-
-
-
 def Coupon(request, customer_id):
     customer = get_object_or_404(Customer, customerID=customer_id)
     # if email_id.is_downloaded == False:
@@ -80,10 +77,6 @@ def Coupon(request, customer_id):
     # else:
     #     print("이미 발급된 쿠폰입니다.")
     return render(request, 'user/Coupon.html',  {'customer': customer})
-
-
-
-
 
 def Profile(request, customer_id):
     customer = get_object_or_404(Customer, customerID=customer_id)
