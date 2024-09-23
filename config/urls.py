@@ -19,9 +19,8 @@ from django.urls import path, include
 
 # 생성된 앱 urls.py 피알로 연동하는 코드
 urlpatterns = [
-    path('',include("user.urls")),
-
     path('',include("manager.urls")),
+    path('',include("user.urls")),
     # path('admin/', admin.site.urls),
 ]
 
