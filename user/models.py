@@ -57,7 +57,7 @@ class Email(models.Model):
 class Coupon(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     code = models.CharField(max_length=50)
-    is_downloaded = models.BooleanField(default=False)  # 다운로드 여부
+    #is_downloaded = models.BooleanField(default=False)  # 다운로드 여부
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
