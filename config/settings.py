@@ -123,7 +123,7 @@ USE_TZ = True
 # concatena a pasta static a variavel instanciada base_dir que aponta para a raiz do projeto
 
 # settings.py
-STATIC_URL = '/assets/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 

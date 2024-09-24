@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from django.http import HttpResponse
 from io import BytesIO
 
+
 def CustomerTable(request):
     try:
         # CSV 파일 경로
@@ -56,10 +57,11 @@ def CustomerTable(request):
 
         for index, row in df.iterrows():
             if row['TotalCharges'] >= 1000:
-                df.at[index, 'State'] += '<a href="/TotalCharges-churn-chart/{0}/" class="btn btn-sm btn-totalcharges" style="background-color: #4CAF50; color: white;">TotalCharges</a> '.format(row['customerID'])
+                df.at[index, 'State'] += '<a href="/TotalCharges-churn-chart/{0}/" class="btn btn-sm btn-totalcharges" style="background-color: #012970; color: white;">TotalCharges</a> '.format(row['customerID'])
 
         if 'MultipleLines_Yes' in df.columns:
-            df.loc[df['MultipleLines_Yes'] == 1, 'State'] += '<button class="btn btn-sm btn-multiplelines" style="background-color: #012970; color: white;">MultipleLines</button> '
+            df.loc[df['MultipleLines_Yes'] == 1, 'State'] += '<button class="btn btn-sm btn-multiplelines" style="background-color: #808080; color: white;">MultipleLines</button>'
+
 
         for index, row in df.iterrows():
             button_html = '<div style="display: flex; gap: 10px;">'
@@ -113,7 +115,6 @@ def churn_chart_tenure(request, customer_id):
     # CSV 파일 경로
     csv_file_path = os.path.join(settings.BASE_DIR, 'static', 'assets', 'data', 'WA_Fn-UseC_-Telco-Customer-Churn.csv')
     df = pd.read_csv(csv_file_path)
-
     # Churn이 Yes일 때 tenure의 빈도수 계산
     tenure_counts_churn_yes = df[df['Churn'] == 'Yes']['tenure'].value_counts().sort_index()
 
