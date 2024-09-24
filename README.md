@@ -719,7 +719,7 @@ print(X_test.shape)
 shap.summary_plot(shap_values[...,0],X_test)
 ```
 
-![e547e9f4-d03b-4402-ad19-aec4f2125b5d.png](e547e9f4-d03b-4402-ad19-aec4f2125b5d.png)
+![e547e9f4-d03b-4402-ad19-aec4f2125b5d.png](images/e547e9f4-d03b-4402-ad19-aec4f2125b5d.png)
 
 ```python
 shap.summary_plot(shap_values[...,0],X_test, plot_type="bar")
