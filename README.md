@@ -753,4 +753,4 @@ shap.summary_plot(shap_values[...,0],X_test, plot_type="bar")
 
 🐹 정해린 :
 
-🦝 진윤화 :
+🦝 진윤화 : 장고 개발이 들어간 이후에 SHAP 분석을 하게 되어서 Feature Importances에 대해 분석한게 주가 되어서 아쉬웠다.
