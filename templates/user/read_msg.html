@@ -80,22 +80,22 @@
               <i class="bi bi-circle"></i><span>Message</span>
             </a>
           </li>
-          <li>
+          <!-- <li>
             <a href="{% url 'Coupon' customer_id=customer.customerID %}">
               <i class="bi bi-circle"></i><span>Coupon</span>
             </a>
-          </li>
+          </li> -->
         </ul>
       </li><!-- End Icons Nav -->
 
-      <li class="nav-heading">Pages</li>
+      <!-- <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'Profile' customer_id=customer.customerID %}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
-      </li><!-- End Profile Page Nav -->
+      </li>End Profile Page Nav -->
     </ul>
 
   </aside><!-- End Sidebar-->
@@ -107,7 +107,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Users</li>
+          <li class="breadcrumb-item">Settings</li>
           <li class="breadcrumb-item active">Message</li>
         </ol>
       </nav>
@@ -138,17 +138,30 @@
 
                         <div class="row">
                           <div class="col-lg-3 col-md-4 label">Content</div>
-                          <div class="col-lg-9 col-md-8">{{ email.content }}쿠폰에 대한 내용이 나올 부분입니다. 쿠폰에 대한 내용이 나올 부분입니다.</div>
+                          <div class="col-lg-9 col-md-8">{{ email.content }}</div>
                         </div>
 
                         <div class="row">
                           <div class="col-lg-3 col-md-4 label">Download</div>
                           <div class="col-lg-9 col-md-8">
-                            <a href="{% url 'Coupon' customer_id=customer.customerID %}">
+                            <!-- <a href="{% url 'Coupon' customer_id=customer.customerID %}">
                               <button type="button" class="btn btn-primary">쿠폰 다운로드</button>
-                            </a>
+                            </a> -->
+                            <button type="button" class="btn btn-primary" id="download-btn">Download</button>
+                          </div>
+
+
+                          
+                          
+                          
+                        </div>
+                        <div class="row mt-4">
+                          <div class="col text-center">
+                            <a href="{% url 'Message' customer_id=customer.customerID %}" class="btn btn-outline-primary" style="margin-top: 20px;">목록</a>
                           </div>
                         </div>
+                        
+                        
                     </div>
                   </div>
 
@@ -201,6 +214,24 @@
 
   <!-- Template Main JS File -->
   <script src="{% static 'assets/js/main.js' %}"></script>
+  <script>
+    document.getElementById('download-btn').addEventListener('click', function() {
+      // AJAX 요청을 보내는 부분
+      const customerId = '{{ customer.customerID }}'; // Django 템플릿에서 customerID를 가져옴
+      fetch("{% url 'Coupon' customer_id='{{ customer.customerID }}' %}", {
+        method: 'GET', // 또는 'POST', 필요에 따라 변경
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+      })
+      .then(() => {
+        // 다운로드 성공 시 알림 표시
+        alert('다운로드 성공!');
+      });
+    });
+  </script>
+  
+  
 
 </body>
 
