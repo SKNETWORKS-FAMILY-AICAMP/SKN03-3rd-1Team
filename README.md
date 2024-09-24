@@ -509,7 +509,7 @@ evaluate_model(y_test, y_pred)
 make_confusion_matrix(X_test, y_test)
 ```
 
-![image.png](images/image%2015.png)
+![image.png](images/cm_rf.png)
 
 - 이후 모델들에서도 똑같이 make_pred, evaluate_model, make_confusion_matrix 함수가 반복사용 되므로, 모델평가와 컨퓨전 매트릭스의 코드는 생략함.
 
@@ -535,7 +535,7 @@ model_adb = AdaBoostClassifier(**params).fit(X_train,y_train)
 
 ## 컨퓨전 매트릭스
 
-![image.png](images/image%2017.png)
+![image.png](images/cm_adb.png)
 
 # 모델 : 가우시안 NB
 
@@ -558,7 +558,7 @@ model_gnb.fit(X_train, y_train)
 
 ## 컨퓨전 매트릭스
 
-![image.png](images/image%2019.png)
+![image.png](images/cm_gnb.png)
 
 # 모델 : SVM
 
@@ -578,7 +578,7 @@ model_svm.fit(X_train, y_train)
 
 ## 컨퓨전 매트릭스
 
-![image.png](images/image%2021.png)
+![image.png](images/cm_svm.png)
 
 # 모델 : Voting
 
@@ -609,7 +609,7 @@ model_vt.fit(X_train, y_train)
 
 ## 컨퓨전 매트릭스
 
-![image.png](images/image%2023.png)
+![image.png](images/cm_vt.png)
 
 # 모델 종합 평가
 
