@@ -751,6 +751,6 @@ shap.summary_plot(shap_values[...,0],X_test, plot_type="bar")
 
 🦥 송명신 : 결국 모델 학습엔 손을 못댄게 정말 아쉽네요
 
-🐹 정해린 :
+🐹 정해린 : 시각화를 다양하게 보여줬으면 더 좋았을 거 같은데 이 부분이 너무 아쉬워여 😢
 
 🦝 진윤화 : 장고 개발이 들어간 이후에 SHAP 분석을 하게 되어서 Feature Importances에 대해 분석한게 주가 되어서 아쉬웠다.
