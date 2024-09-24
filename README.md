@@ -44,7 +44,7 @@
 
 ## Flowchart
 
-![alt text](image.png)
+![alt text](images/01/image.png)
 
 # Model
 
