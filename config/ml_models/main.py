@@ -19,7 +19,6 @@ from sklearn.metrics import (
     confusion_matrix,
     classification_report
 )
-
 # 모델 학습 및 튜닝
 from sklearn.model_selection import train_test_split, cross_val_score
 
@@ -27,7 +26,6 @@ from sklearn.model_selection import train_test_split, cross_val_score
 from src.datapreprocessor import DataPreprocessor
 from src.modeltrainer import ModelTrainer
 from src.modelevaluator import ModelEvaluator
-from src.visualization import Visualization
 from src.seedresetting import reset_seeds
 
 
@@ -81,10 +79,8 @@ def evaluate_models(models, X_test, y_test):
             'Recall': recall,
             'F1 Score': f1
         })
-
     return pd.DataFrame(results)
 
-from sklearn.metrics import confusion_matrix
 
 
 if __name__=="__main__":
