@@ -48,7 +48,7 @@
 
 ## Model
 
-윤화님 여기에 작성 부탁드려용
+test
 
 ## Error Report
 
